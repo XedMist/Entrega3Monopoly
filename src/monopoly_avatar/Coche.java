@@ -102,6 +102,6 @@ public class Coche extends Avatar{
             tipo: coche,
             casilla: %s,
             jugador: %s
-        }""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
+        }\n""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
     }
 }

@@ -41,7 +41,7 @@ public class Juego implements Comando{
     private Queue<Jugador> colaJugadores;
     private Map<String,Jugador> jugadores;
     
-    private Map<Character,Jugador> avatares;
+    private Map<Character,Avatar> avatares;
     
     private Jugador jugadorActual;
     private int tiradas;
@@ -401,7 +401,7 @@ public class Juego implements Comando{
                 avatar = new Pelota(id,salida);
                 break;
         }
-        this.avatares.put(id,this.jugadorActual);
+        this.avatares.put(id,avatar);
         Jugador nuevoJugador = new Jugador(nombreJugador,avatar);
         avatar.asignarJugador(nuevoJugador);
         this.colaJugadores.add(nuevoJugador);
@@ -550,15 +550,14 @@ public class Juego implements Comando{
         if(!this.carcel.estaEncarcelado(this.jugadorActual)){
             throw new LogicaException("El jugador actual no está en la carcel\n");
         }
-        if(this.jugadorActual.tieneAccion()){
+        if(!this.jugadorActual.tieneAccion()){
             throw new LogicaException("El jugador actual ya ha lanzado los dados\n");
         }
         if(!this.jugadorActual.puedePagar(salida.getPremio()*0.25f)){
             throw new LogicaException("El jugador actual no tiene suficiente dinero para pagar la fianza\n");
         }
         this.jugadorActual.pagar(banca,salida.getPremio()*0.25f);
-        this.carcel.desencarcelar(this.jugadorActual,false);
-        consola.imprimir("El jugador actual ha salido de la carcel\n");
+        this.carcel.desencarcelar(this.jugadorActual);
     }
 
     

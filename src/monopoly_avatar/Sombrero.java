@@ -26,6 +26,6 @@ public class Sombrero extends Avatar{
             tipo: sombrero,
             casilla: %s,
             jugador: %s
-        }""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
+        }\n""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
     }
 }

@@ -42,6 +42,12 @@ public class Carcel extends Especial{
 
     }
 
+    public void desencarcelar(Jugador j) throws MonopolyException {
+        this.encarcelados.remove(j.getNombre());
+        Juego.consola.imprimir("El jugador %s ha salido de la cárcel pagando %.2f. Puede lanzar los dados de nuevo.\n".formatted(j.getNombre(),0.25f* Juego.salida.getPremio()));
+        j.setAccion(true);
+    }
+
     @Override
     public String toString() {
         String encarcelados = "[";

@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="44588567-9d2c-43fc-80a2-9f858b4b3484" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_core/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Juego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +99,7 @@
       <workItem from="1702207107151" duration="12000" />
       <workItem from="1702207295151" duration="255000" />
       <workItem from="1702211478107" duration="5868000" />
-      <workItem from="1702222265614" duration="1114000" />
+      <workItem from="1702222265614" duration="2447000" />
     </task>
     <servers />
   </component>
@@ -119,6 +116,11 @@
           <url>file://$PROJECT_DIR$/src/monopoly_casilla/Transporte.java</url>
           <line>7</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/monopoly_core/Juego.java</url>
+          <line>432</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
