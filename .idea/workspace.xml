@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44588567-9d2c-43fc-80a2-9f858b4b3484" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_core/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Juego.java" afterDir="false" />
     </list>
@@ -99,7 +97,7 @@
       <workItem from="1702207107151" duration="12000" />
       <workItem from="1702207295151" duration="255000" />
       <workItem from="1702211478107" duration="5868000" />
-      <workItem from="1702222265614" duration="2447000" />
+      <workItem from="1702222265614" duration="2859000" />
     </task>
     <servers />
   </component>

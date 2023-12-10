@@ -1100,11 +1100,39 @@ public class Juego implements Comando{
         consola.imprimir("Se ha eliminado el %s\n".formatted(id));
     }
 
+
+
+
     public void listarEnVenta(){
         for(Casilla c: this.casillas){
             if(c instanceof Propiedad p){
                 if(p.getPropietario().equals(banca)){
-                    consola.imprimir(p.toString() + "\n");
+                    if(p instanceof Solar s){
+                        consola.imprimir("""
+                                {
+                                    nombre: %s,
+                                    tipo: solar,
+                                    grupo: %s,
+                                    valor: %.2f
+                                }\n""" .formatted(s.getNombre(),s.getGrupo(),s.valor()));
+                    }
+                    if(p instanceof Transporte t){
+                        consola.imprimir("""
+                                {
+                                    nombre: %s,
+                                    tipo: transporte,
+                                    valor: %.2f
+                                }\n""" .formatted(t.getNombre(),t.valor()));
+                    }
+
+                    if(p instanceof Servicios s){
+                        consola.imprimir("""
+                                {
+                                    nombre: %s,
+                                    tipo: servicio,
+                                    valor: %.2f
+                                }\n""" .formatted(s.getNombre(),s.valor()));
+                    }
                 }
             }
         }

@@ -243,6 +243,9 @@ public class ConsolaNormal implements Consola{
                 }
                 juego.listarEdificios();
                 break;
+            case "enventa":
+                juego.listarEnVenta();
+                break;
             default:
                 throw new ArgumentosIncorrectosException(ArgumentosComandos.listar,-1);
         }
