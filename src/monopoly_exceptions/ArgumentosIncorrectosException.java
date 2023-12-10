@@ -21,7 +21,7 @@ public class ArgumentosIncorrectosException extends ConsolaException{
         aceptar(new String[]{"aceptar","<identificador>"}),
         tratos(new String[]{"tratos"}),
         eliminarTrato(new String[]{"eliminar trato","<identificador>"}),
-        salirCarcel(new String[]{"salir carcel"}); //TODO
+        salirCarcel(new String[]{"salir carcel"}); 
         private String[] argumentos;
         ArgumentosComandos(String[] argumentos){
             this.argumentos = argumentos;

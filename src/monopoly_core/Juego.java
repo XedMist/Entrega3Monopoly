@@ -284,10 +284,14 @@ public class Juego implements Comando{
             entry.setValue(getSizeGrupo(grupo) - entry.getValue());
         }
 
-        if(cupo.get("hotel") == 1 && nCasas - 4 > getSizeGrupo(grupo))
+        if(cupo.get("hotel") == 1 && nCasas - 4 > getSizeGrupo(grupo)){
             cupo.put("hotel",0);
-        
-        cupo.put("casa",getSizeGrupo(grupo)*4 - nCasas);
+            cupo.put("casa",getSizeGrupo(grupo)*4 - nCasas);
+        }else if(cupo.get("hotel") == 0){
+            cupo.put("casa",getSizeGrupo(grupo) - nCasas);
+        }else{
+            cupo.put("casa",getSizeGrupo(grupo)*4 - nCasas);
+        }
         return cupo;
 
     }
