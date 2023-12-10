@@ -18,7 +18,7 @@ public class Piscina extends Edificio{
     }
     @Override
     public float alquiler() {
-        return this.getCasilla().alquiler() * 25;
+        return this.getCasilla().getAlquiler() * 25;
     }
 
 

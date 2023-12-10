@@ -21,4 +21,13 @@ public class Impuesto extends Casilla{
         j.incrementarPagoTasasEImpuestos(this.impuesto);
     }
 
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: impuesto,
+            apagar: %.2f
+        }""".formatted(this.impuesto);
+    }
+
 }

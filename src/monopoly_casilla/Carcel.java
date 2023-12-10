@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Carcel extends Especial{
-    private Map<String,Integer> encarcelados;
+    //Porque no se puede cambiar el mapa, pero si se puede modificar el contenido del mapa
+    private final Map<String,Integer> encarcelados;
     public Carcel(String nombre,int posicion){
         super(nombre,posicion);
         this.encarcelados = new HashMap<>(); 
@@ -39,5 +40,14 @@ public class Carcel extends Especial{
         j.setAccion(false);
         Juego.consola.imprimir("El jugador %s sigue en la cárcel\n".formatted(j.getNombre()));
 
+    }
+
+    @Override
+    public String toString() {
+        return """
+        {
+            salir: %.2f,
+            jugadores: %s
+        }""".formatted(0.25f* Juego.salida.getPremio(),this.encarcelados);
     }
 }

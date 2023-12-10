@@ -5,7 +5,7 @@ import monopoly_casilla.Casilla;
 import java.util.List;
 
 public class Tablero{
-    private List<Casilla> casillas;
+    private final List<Casilla> casillas;
 
     public static final int ANCHO_TABLERO = 11;
     public static final int ALTURA_TABLERO = 11;

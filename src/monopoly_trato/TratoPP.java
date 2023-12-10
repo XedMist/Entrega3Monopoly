@@ -4,8 +4,8 @@ import monopoly_casilla.Propiedad;
 import monopoly_core.Jugador;
 
 public class TratoPP extends Trato{
-    private Propiedad propiedad1;
-    private Propiedad propiedad2;
+    private final Propiedad propiedad1;
+    private final Propiedad propiedad2;
     public TratoPP(Jugador jugador1, Jugador jugador2, String identificador, Propiedad propiedad1, Propiedad propiedad2) {
         super(jugador1, jugador2, identificador);
         this.propiedad1 = propiedad1;

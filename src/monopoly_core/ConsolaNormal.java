@@ -1,8 +1,7 @@
 package monopoly_core;
 
-import monopoly_exceptions.BancarrotaException;
-import monopoly_exceptions.ConsolaException;
-import monopoly_exceptions.MonopolyException;
+import monopoly_exceptions.*;
+import monopoly_exceptions.ArgumentosIncorrectosException.ArgumentosComandos;
 
 import java.util.Scanner;
 
@@ -31,14 +30,45 @@ public class ConsolaNormal implements Consola{
 
             try{
                 procesarComando(juego,comando);
-            }catch(ConsolaException e){
-                error(e.getMessage());
             }catch(BancarrotaException e){
                 Jugador jugador = e.getJugador();
                 Jugador destinatario = e.getDestinatario();
                 jugador.bancarrota(destinatario);
                 imprimir(e.getMessage());
-                juego.acabarTurno();
+                try{
+                    juego.acabarTurno();
+                }catch(VictoriaException ex){
+                    imprimir("El ganador es %s\n".formatted(ex.getGanador().getNombre()));
+                    ex.getGanador().estadisticas();
+                    System.exit(0);
+                }
+            }catch(VictoriaException e){
+                imprimir("El ganador es %s\n".formatted(e.getGanador().getNombre()));
+                e.getGanador().estadisticas();
+                System.exit(0);
+            }catch(ArgumentosIncorrectosException e){
+                int numeroArgumentos = e.getNumeroArgumentos();
+                String[] argumentos = e.getArgumentos();
+                if(numeroArgumentos == 0){
+                    error("Uso: %s.\n".formatted(argumentos[0]));
+                }
+                else if(numeroArgumentos == -1){ 
+                    error("Uso: %s\n".formatted(argumentos[0]));
+                    for(int i = 1; i < argumentos.length; i++){
+                        error("\t- %s\n".formatted(argumentos[i]));
+                    }
+                }else {
+                    error("Uso: %s %s.\n".formatted(argumentos[0],argumentos[numeroArgumentos]));
+                }
+
+            }catch(NoExisteComandoException e){
+                error("No existe ese comando.\n");
+                for(ArgumentosComandos c : ArgumentosComandos.values()){
+                    error("- %s\n".formatted(c.getArgumento(0)));
+                }
+            }
+            catch(LogicaException e){
+                error(e.getMessage());
             }catch(MonopolyException e){
                 error(e.getMessage());
             }
@@ -48,7 +78,7 @@ public class ConsolaNormal implements Consola{
         sc.close();
     }
     private void procesarComando(Juego juego, String comando) throws MonopolyException{
-        String args[] = comando.split(" ");
+        String[] args = comando.split(" ");
         if(!juego.haEmpezado()){
             if(args[0].equals("empezar")){
                 juego.empezar();
@@ -57,7 +87,7 @@ public class ConsolaNormal implements Consola{
                 juego.crearJugador(args[2],args[3]);
                 return;
             }
-            throw new ConsolaException("Ese comando o no existe o no se puede ejecutar ahora mismo\n");
+            throw new NoExisteComandoException(); 
         }
         switch (args[0]){
             case "describir":
@@ -114,34 +144,33 @@ public class ConsolaNormal implements Consola{
             case "eliminar":
                 comandoEliminarTrato(juego,args);
                 break;
+            case "salir":
+                comandoSalir(juego,args);
+                break;
             case "debug":
                 comandoDebug(juego,args);
                 break;
             default:
-                throw new ConsolaException("Ese comando no existe\n");
+                throw new NoExisteComandoException();
         }
     }
-    private void comandoDescribir(Juego juego, String[] args){
+    private void comandoDescribir(Juego juego, String[] args) throws ArgumentosIncorrectosException,LogicaException{
         if(args.length == 1){
-            imprimir("Ese comando necesita un argumento\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.describir,0);
         }
         switch(args[1]){
             case "jugador":
                 if(args.length == 2){
-                    imprimir("Ese comando necesita un argumento\n");
-                    return;
+                    throw new ArgumentosIncorrectosException(ArgumentosComandos.describir,2);
                 }
                 juego.describirJugador(args[2]);
                 break;
             case "avatar":
                 if(args.length == 2){
-                    imprimir("Ese comando necesita un argumento\n");
-                    return;
+                    throw new ArgumentosIncorrectosException(ArgumentosComandos.describir,3);
                 }
                 if(args[2].length() != 1){
-                    imprimir("Ese comando necesita un argumento de un caracter\n");
-                    return;
+                    throw new ArgumentosIncorrectosException(ArgumentosComandos.describir,3);
 
                 }
                 juego.describirAvatar(args[2].charAt(0));
@@ -150,32 +179,28 @@ public class ConsolaNormal implements Consola{
                 juego.describirCasilla(args[1]);
         }
     }
-    private void comandoVer(Juego juego, String[] args){
+    private void comandoVer(Juego juego, String[] args) throws ArgumentosIncorrectosException{
         if(args.length != 2 || !args[1].equals("tablero")){
-            imprimir("Ese comando necesita un argumento\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.verTablero,0);
         }
         juego.verTablero();
     }
     private void comandoLanzar(Juego juego, String[] args) throws MonopolyException{
-        if(args.length != 1){
-            imprimir("Ese comando no necesita argumentos\n");
-            return;
+        if(args.length != 2 || !args[1].equals("dados")){
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.lanzarDados,0);
         }
         juego.lanzarDados(false);
     }
-    private void comandoAcabar(Juego juego, String[] args){
+    private void comandoAcabar(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.acabarTurno,0);
         }
         juego.acabarTurno();
     }
 
     private void comandoComprar(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.comprar,1);
         }
         juego.comprar(args[1]);
     }
@@ -190,21 +215,19 @@ public class ConsolaNormal implements Consola{
                 juego.lanzarDados(true);
                 break;
             default:
-                imprimir("Ese comando no existe\n");
+                throw new NoExisteComandoException();
         }
     }
 
-    private void comandoJugador(Juego juego, String[] args){
+    private void comandoJugador(Juego juego, String[] args) throws ArgumentosIncorrectosException{
         if(args.length != 1){
-            imprimir("Ese comando no necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.jugador,0);
         }
         juego.jugador();
     }
-    private void comandoListar(Juego juego, String[] args){
+    private void comandoListar(Juego juego, String[] args) throws ArgumentosIncorrectosException{
         if(args.length < 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.listar,-1);
         }
         switch(args[1]){
             case "jugadores":
@@ -221,13 +244,12 @@ public class ConsolaNormal implements Consola{
                 juego.listarEdificios();
                 break;
             default:
-                imprimir("Ese comando no existe\n");
+                throw new ArgumentosIncorrectosException(ArgumentosComandos.listar,-1);
         }
     }
     private void comandoEdificar(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.edificar,1);
         }
 
         if(!args[1].equals("casa") && !args[1].equals("hotel") && !args[1].equals("piscina") && !args[1].equals("pista")){
@@ -235,54 +257,48 @@ public class ConsolaNormal implements Consola{
         }
         juego.edificar(args[1]);
     }
-    private void comandoVender(Juego juego, String[] args){
+    private void comandoVender(Juego juego, String[] args) throws ArgumentosIncorrectosException,LogicaException{
         if(args.length != 4){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.vender,1);
         }
         juego.vender(args[1],args[2],Integer.parseInt(args[3]));
     }
 
-    private void comandoHipotecar(Juego juego, String[] args){
+    private void comandoHipotecar(Juego juego, String[] args) throws ArgumentosIncorrectosException,LogicaException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.hipotecar,1);
         }
         juego.hipotecar(args[1]);
     }
 
-    private void comandoDeshipotecar(Juego juego, String[] args){
+    private void comandoDeshipotecar(Juego juego, String[] args) throws ArgumentosIncorrectosException,MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.deshipotecar,1);
         }
         juego.deshipotecar(args[1]);
     }
 
-    private void comandoBancarrota(Juego juego, String[] args){
+    private void comandoBancarrota(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 1){
-            imprimir("Ese comando no necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.bancarrota,0);
         }
         juego.bancarrota();
     }
 
-    private void comandoEstadisticas(Juego juego, String[] args){
+    private void comandoEstadisticas(Juego juego, String[] args) throws ArgumentosIncorrectosException, LogicaException {
         if (args.length == 1){
             juego.estadisticas();
             return;
         }
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.estadisticas,1);
         }
         juego.estadisticas(args[1]);
     }
 
-    private void comandoCambiar(Juego juego, String[] args){
-        if(args.length != 2 && !args[1].equals("modo")){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+    private void comandoCambiar(Juego juego, String[] args) throws MonopolyException{
+        if(args.length != 2 || !args[1].equals("modo")){
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.cambiarModo,0);
         }
         juego.cambiarModo();
     }
@@ -299,15 +315,14 @@ public class ConsolaNormal implements Consola{
                 comandoTratoPPA(juego,args);
                 break;
             default:
-                imprimir("Ese comando necesita argumentos\n");
+                throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,-1);
         }
 
     }
     private void comandoTratoPP_PC(Juego juego, String[] args) throws MonopolyException{
         String nombreJugador2 = args[1].substring(0,args[1].length()-1);
         if(!args[2].equals("cambiar")){
-            imprimir("Ese comando no existe\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,1);
         }
         String el1 = args[3].substring(1,args[3].length()-1);
         String el2 = args[4].substring(0,args[4].length()-1);
@@ -329,7 +344,7 @@ public class ConsolaNormal implements Consola{
         }
 
         if(propiedad1 == null && propiedad2 == null){
-            throw new ConsolaException("Ese comando no existe\n");
+            throw new NoExisteComandoException();
         }
         if(propiedad1 != null){
             if(propiedad2 != null){
@@ -342,21 +357,17 @@ public class ConsolaNormal implements Consola{
         juego.trato(nombreJugador2,juego.getJugadorActual().getNombre(),propiedad2,cantidad1);
     }
 
-    //Formato: trato <jugador> cambiar (<propiedad1>, <propiedad2> y <cantidad>)
-    //Formato: trato <jugador> cambiar (<propiedad1>, <cantidad> y <propiedad2>)
     private void comandoTratoPPC(Juego juego,String[] args) throws MonopolyException{
         String nombreJugador2 = args[1].substring(0,args[1].length()-1);
         if(!args[2].equals("cambiar")){
-            imprimir("Ese comando no existe\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,2);
         }
         String el1 = args[3].substring(1,args[3].length()-1);
         String el2 = args[4];
         String el3 = args[6].substring(0,args[6].length()-1);
 
         if(!args[5].equals("y")){
-            imprimir("Ese comando no existe\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,2);
         }
 
         String propiedad1 = null;
@@ -387,19 +398,16 @@ public class ConsolaNormal implements Consola{
 
     }
 
-    //Formato: trato <jugador>: cambiar (<propiedad1>, <propiedad2>) y noalquiler(<propiedad3>, <turnos>)
     public void comandoTratoPPA(Juego juego,String[] args) throws MonopolyException{
         String nombreJugador2 = args[1].substring(0,args[1].length()-1);
         if(!args[2].equals("cambiar")){
-            imprimir("Ese comando no existe\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,3);
         }
         String el1 = args[3].substring(1,args[3].length()-1);
         String el2 = args[4].substring(0,args[4].length()-1);
 
         if(!args[5].equals("y")){
-            imprimir("Ese comando no existe\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.trato,3);
         }
 
         for(int i = 0; i < args.length; i++){
@@ -411,30 +419,33 @@ public class ConsolaNormal implements Consola{
         try{
             turnos = Integer.parseInt(el4);
         }catch(NumberFormatException e){
-            throw new ConsolaException("Ese comando no existe\n");
+            throw new NoExisteComandoException();
         }
         juego.trato(nombreJugador2,el1,el2,el3,turnos);
     }
 
     private void comandoAceptar(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.aceptar,1);
         }
         juego.aceptar(args[1]);
     }
-    private void comandoTratos(Juego juego, String[] args){
+    private void comandoTratos(Juego juego, String[] args) throws ArgumentosIncorrectosException{
         if(args.length != 1){
-            imprimir("Ese comando no necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.tratos,0);
         }
         juego.tratos();
     }
     private void comandoEliminarTrato(Juego juego, String[] args) throws MonopolyException{
         if(args.length != 2){
-            imprimir("Ese comando necesita argumentos\n");
-            return;
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.eliminarTrato,1);
         }
         juego.eliminarTrato(args[1]);
+    }
+    private void comandoSalir(Juego juego, String[] args) throws MonopolyException{
+        if(args.length != 1){
+            throw new ArgumentosIncorrectosException(ArgumentosComandos.salirCarcel,0);
+        }
+        juego.salirCarcel();
     }
 }

@@ -5,60 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44588567-9d2c-43fc-80a2-9f858b4b3484" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/monopoly_avatar/Avatar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_avatar/Esfinge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_avatar/Pelota.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_avatar/Sombrero.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_carta/Carta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Accion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Impuesto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/IrCarcel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Propiedad.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_core/Comando.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_core/Juego.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_edificios/Casa.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_exceptions/ConsolaException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_exceptions/MonopolyException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_exceptions/SinDineroException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_trato/Trato.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPP.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPA.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Grupo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/monopoly_exceptions/NoExisteComandoException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Accion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AccionCajaComunidad.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AccionSuerte.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Avatar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Carcel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Casa.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Casilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Casilla.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ColorString.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/ColorString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Comando.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Consola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Consola.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConsolaException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConsolaNormal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Dado.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Edificio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/Edificio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Especial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Especial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Impuesto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IrCarcel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Juego.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Jugador.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Propiedad.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Salida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Salida.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Servicios.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Servicios.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Solar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Tablero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Transporte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Transporte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_avatar/Coche.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_avatar/Coche.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_avatar/Pelota.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_avatar/Pelota.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/Carta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/Carta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/CartaCajaComunidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/CartaCajaComunidad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/CartaSuerte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/CartaSuerte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Accion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Accion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Casilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Casilla.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Especial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Especial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Impuesto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Impuesto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/IrCarcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/IrCarcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Propiedad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Propiedad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Salida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Salida.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Comando.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Comando.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Juego.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Tablero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/Hotel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/Piscina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/Piscina.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/PistaDeporte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/PistaDeporte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_exceptions/SinDineroException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/Trato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/Trato.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPC.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,6 +126,9 @@
       <workItem from="1702145480331" duration="1928000" />
       <workItem from="1702149922193" duration="891000" />
       <workItem from="1702152717533" duration="7022000" />
+      <workItem from="1702207107151" duration="12000" />
+      <workItem from="1702207295151" duration="255000" />
+      <workItem from="1702211478107" duration="5776000" />
     </task>
     <servers />
   </component>
@@ -162,11 +145,6 @@
           <url>file://$PROJECT_DIR$/src/monopoly_casilla/Transporte.java</url>
           <line>7</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/monopoly_casilla/Accion.java</url>
-          <line>7</line>
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

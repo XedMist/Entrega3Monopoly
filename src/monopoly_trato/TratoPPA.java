@@ -5,9 +5,9 @@ import monopoly_core.Jugador;
 import monopoly_exceptions.MonopolyException;
 
 public class TratoPPA extends Trato{
-    private Propiedad propiedad1;
-    private Propiedad propiedad2;
-    private Propiedad propiedad3;
+    private final Propiedad propiedad1;
+    private final Propiedad propiedad2;
+    private final Propiedad propiedad3;
     private int turnos;
     public TratoPPA(Jugador jugador1, Jugador jugador2, String identificador, Propiedad propiedad1, Propiedad propiedad2, Propiedad propiedad3, int turnos) {
         super(jugador1, jugador2, identificador);

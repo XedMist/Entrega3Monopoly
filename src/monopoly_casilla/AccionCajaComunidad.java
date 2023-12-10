@@ -44,5 +44,12 @@ public class AccionCajaComunidad extends Accion{
             accion(jugador);
         }
     }
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: caja_comunidad
+        }""";
+    }
 
 }

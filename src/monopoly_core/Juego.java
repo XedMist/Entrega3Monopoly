@@ -4,8 +4,11 @@ import monopoly_avatar.*;
 import monopoly_carta.CartaCajaComunidad;
 import monopoly_carta.CartaSuerte;
 import monopoly_casilla.*;
+import monopoly_core.ColorString.Color;
 import monopoly_edificios.*;
+import monopoly_exceptions.LogicaException;
 import monopoly_exceptions.MonopolyException;
+import monopoly_exceptions.VictoriaException;
 import monopoly_trato.Trato;
 import monopoly_trato.TratoPC;
 import monopoly_trato.TratoPP;
@@ -26,7 +29,7 @@ import java.util.Random;
 public class Juego implements Comando{
     public static final int NJUGADORES = 6;
     public static Consola consola;
-    public static Jugador banca; // <- No me gusta
+    public static Jugador banca;
     public static Dado dados;
     public static Salida salida;
 
@@ -37,6 +40,7 @@ public class Juego implements Comando{
     private boolean haEmpezado;
     private Queue<Jugador> colaJugadores;
     private Map<String,Jugador> jugadores;
+    
     private Map<Character,Jugador> avatares;
     
     private Jugador jugadorActual;
@@ -45,6 +49,8 @@ public class Juego implements Comando{
     private int nTratos;
 
     private Map<String,Integer> nEdificios;
+
+    private Map<Color,Grupo> grupos;
     public Juego(String nombreFichero){
         try{
             Scanner sc = new Scanner(new File(nombreFichero));
@@ -58,9 +64,10 @@ public class Juego implements Comando{
             this.avatares = new HashMap<>();
             this.haEmpezado = false;
             consola = new ConsolaNormal();
-
+            this.grupos = new HashMap<>();
             for(ColorString.Color c: ColorString.Color.values()){
                 this.solares.put(c,new ArrayList<>());
+                this.grupos.put(c,new Grupo(c));
             }
 
             int i = 0;
@@ -108,9 +115,12 @@ public class Juego implements Comando{
                         }
                         break;
                     case 4: 
-                        Solar nuevoSolar = new Solar(campos[0],_posArrayATablero(i),Float.parseFloat(campos[3]),ColorString.Color.valueOf(campos[2]));
+                        ColorString.Color color = ColorString.Color.valueOf(campos[2]);
+                        Grupo grupo = this.grupos.get(color);
+                        Solar nuevoSolar = new Solar(campos[0],_posArrayATablero(i),Float.parseFloat(campos[3]),grupo);
                         casillas.add(nuevoSolar);
                         this.solares.get(nuevoSolar.getGrupo()).add(nuevoSolar);
+                        grupo.addPropiedad(nuevoSolar);
                         break;
                 }
                 i+=1;
@@ -165,7 +175,7 @@ public class Juego implements Comando{
             }
         }
         float premioVuelta = totalSolares/this.solares.size();
-        this.salida.setPremio(premioVuelta);
+        salida.setPremio(premioVuelta);
         for(Jugador j: this.jugadores.values()){
             j.setFortuna(totalSolares/3);
         }
@@ -310,40 +320,60 @@ public class Juego implements Comando{
         return nHoteles >= 2;
     }
 
+    private void comprobar4Vueltas(){
+        boolean check = true;
+        for(Jugador j : this.jugadores.values()){
+            if(j.getVueltas() < 4){
+                check = false;
+            }
+        }
+        if(!check){
+            return;
+        }
+        for(Jugador j : this.jugadores.values()){
+            j.setVueltas(0);
+        }
+        float nuevoPremio = 0;
+        for(List<Solar> ls: this.solares.values()){
+            for(Solar s: ls){
+                if(s.getPropietario().equals(Juego.banca)){
+                    s.incrementarValor();
+                }
+                nuevoPremio += s.valor();
+            }
+        }
+        salida.setPremio(nuevoPremio/this.solares.size());
+        consola.imprimir("Todos los jugadores han dado 4 vueltas, por lo tanto se incrementa el valor de las propiedades sin dueño en un 5%.\n");
+    }
 
     /*                                          */
-    /*             Interfaz monopoly_core.Comando             */
+    /*             Interfaz Comando             */
     /*                                          */
     /*                                          */
     public void verTablero(){
         consola.imprimir(tablero.toString());
     }
-    public void empezar(){
+    public void empezar() throws LogicaException{
         if(this.jugadores.size() < 2){
-            consola.imprimir("No se puede empezar con menos de 2 jugadores\n");
-            return;
+            throw new LogicaException("No se puede empezar el juego con menos de dos jugadores\n");
         }
         if(this.haEmpezado){
-            consola.imprimir("El juego ya ha empezado\n");
-            return;
+            throw new LogicaException("El juego ya ha empezado\n");
         }
         this.haEmpezado = true;
         this.inicializarJuego();
         consola.imprimir("El juego ha empezado\n");
         consola.imprimir("El jugador actual es %s\n".formatted(this.jugadorActual.getNombre()));
     }
-    public void crearJugador(String nombreJugador, String tAvatar){
+    public void crearJugador(String nombreJugador, String tAvatar) throws LogicaException{
         if(this.colaJugadores.size() == NJUGADORES){
-            consola.imprimir("No se pueden crear más jugadores\n");
-            return;
+            throw new LogicaException("No se pueden crear más jugadores\n");
         }
         if(this.haEmpezado){
-            consola.imprimir("No se pueden crear jugadores una vez empezado el juego\n");
-            return;
+            throw new LogicaException("No se pueden crear jugadores una vez ha empezado el juego\n");
         }
         if(this.jugadores.containsKey(nombreJugador)){
-            consola.imprimir("Ya existe un jugador con ese nombre\n");
-            return;
+            throw new LogicaException("Ya existe un jugador con ese nombre\n");
         }
         String[] tAvataresDisponibles = {"coche","sombrero","esfinge","pelota"};
         boolean esTipoValido = false;
@@ -353,10 +383,8 @@ public class Juego implements Comando{
             }
         }
         if(!esTipoValido){
-            consola.imprimir("Ese no es un tipo válido de avatar\n");
-            return;
+            throw new LogicaException("No existe ese tipo de avatar\n");
         }
-        //TODO crear avatar especifico
         char id = generarLetraAvatar();
         Avatar avatar = null;
         switch(tAvatar){
@@ -373,7 +401,7 @@ public class Juego implements Comando{
                 avatar = new Pelota(id,salida);
                 break;
         }
-
+        this.avatares.put(id,this.jugadorActual);
         Jugador nuevoJugador = new Jugador(nombreJugador,avatar);
         avatar.asignarJugador(nuevoJugador);
         this.colaJugadores.add(nuevoJugador);
@@ -387,26 +415,23 @@ public class Juego implements Comando{
 
 
     }
-    public void describirJugador(String nombreJugador){
+    public void describirJugador(String nombreJugador) throws LogicaException{
         if(!this.jugadores.containsKey(nombreJugador)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         consola.imprimir(this.jugadores.get(nombreJugador).toString());
 
     }
-    public void describirCasilla(String nombreCasilla){
+    public void describirCasilla(String nombreCasilla) throws LogicaException{
         Casilla c = this.getCasillaPorNombre(nombreCasilla);
         if(c == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         consola.imprimir(c.toString());
     }
-    public void describirAvatar(char idAvatar){
+    public void describirAvatar(char idAvatar) throws LogicaException{
         if(!this.avatares.containsKey(idAvatar)){
-            consola.imprimir("No existe ningún avatar con ese id\n");
-            return;
+            throw new LogicaException("No existe ningún avatar con ese id\n");
         }
         consola.imprimir(this.avatares.get(idAvatar).toString());
     }
@@ -418,13 +443,11 @@ public class Juego implements Comando{
             return;
         }
         if(!this.jugadorActual.tieneAccion()){
-            consola.imprimir("El jugador actual ya ha lanzado los dados\n");
-            return;
+            throw new LogicaException("El jugador actual ya ha lanzado los dados\n");
         }
 
         if(avatar instanceof Coche c && c.penalizado()){
-            consola.imprimir("El jugador actual no puede lanzar los dados porque está penalizado\n");
-            return;
+            throw new LogicaException("El jugador actual está penalizado\n");
         }
         int tirada = debug ? dados.debugLanzar() : dados.lanzar();
         
@@ -463,19 +486,17 @@ public class Juego implements Comando{
     public void comprar(String nombreCasilla) throws MonopolyException{
         Casilla c = this.getCasillaPorNombre(nombreCasilla);
         if(c == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c instanceof Propiedad)){
-            consola.imprimir("Esa casilla no se puede comprar\n");
-            return;
+            throw new LogicaException("La casilla no es una propiedad\n");
         }
         Propiedad p = (Propiedad) c;
         p.comprar(this.jugadorActual.getAvatar());
     }
-    public void acabarTurno(){
+    public void acabarTurno() throws VictoriaException{
         if(this.jugadorActual.activo() && this.jugadorActual.tieneAccion()){
-            consola.imprimir("%s aun tiene acciones pendientes.\n".formatted(this.jugadorActual.getNombre()));
+            consola.imprimir("El jugador actual no ha lanzado los dados\n");
             return;
         }
         this.colaJugadores.poll();
@@ -484,8 +505,7 @@ public class Juego implements Comando{
             this.colaJugadores.offer(this.jugadorActual);
         }
         if(this.colaJugadores.size() == 1){
-            //TODO Victoria y estadisticas
-            System.exit(0);
+            throw new VictoriaException(this.colaJugadores.peek());
         }
         this.jugadorActual = j;
         j.setAccion(true);
@@ -499,7 +519,7 @@ public class Juego implements Comando{
         else if(avatar instanceof Pelota p){
             p.siguienteTurno();
         }
-
+        this.comprobar4Vueltas();
         consola.imprimir("El jugador actual es %s.\n".formatted(this.jugadorActual.getNombre()));
     }
     public void jugador(){
@@ -527,16 +547,13 @@ public class Juego implements Comando{
     }
     public void salirCarcel() throws MonopolyException{
         if(!this.carcel.estaEncarcelado(this.jugadorActual)){
-            consola.imprimir("El jugador actual no está encarcelado\n");
-            return;        
+            throw new LogicaException("El jugador actual no está en la carcel\n");
         }
         if(this.jugadorActual.tieneAccion()){
-            consola.imprimir("No se puede realizar ya que el jugador actual ya ha lanzado los dados\n");
-            return;
+            throw new LogicaException("El jugador actual ya ha lanzado los dados\n");
         }
         if(!this.jugadorActual.puedePagar(salida.getPremio()*0.25f)){
-            consola.imprimir("El jugador actual no tiene suficiente dinero para salir de la carcel\n");
-            return;
+            throw new LogicaException("El jugador actual no tiene suficiente dinero para pagar la fianza\n");
         }
         this.jugadorActual.pagar(banca,salida.getPremio()*0.25f);
         this.carcel.desencarcelar(this.jugadorActual,false);
@@ -548,23 +565,19 @@ public class Juego implements Comando{
     public void edificar(String tipoEdificio) throws MonopolyException{
         Casilla casilla = this.jugadorActual.getAvatar().getCasilla();
         if(!(casilla instanceof Solar)){
-            consola.imprimir("El jugador actual no está en un solar\n");
-            return;
+            throw new LogicaException("El jugador actual no está en una casilla de tipo solar\n");
         }
         Solar solar = (Solar) casilla;
         if(!this.jugadorActual.equals(solar.getPropietario())){
-            consola.imprimir("El jugador actual no es el propietario de la casilla\n");
-            return;
+            throw new LogicaException("El jugador actual no es el propietario de la casilla\n");
         }
         if(!this.tieneTodosSolar(this.jugadorActual,solar.getGrupo()) && solar.frecuenciaVisita(this.jugadorActual.getNombre()) < 3){
-            consola.imprimir("El jugador no puede edificar casas en la casilla %s porque no tiene todos los solares del grupo %s o no ha caido más de dos veces en la casilla.\n".formatted(solar.getNombre(),solar.getGrupo()));
-            return;
+            throw new LogicaException("El jugador actual no tiene todos los solares del grupo o no ja caido más de dos veces en esta casilla\n");
         }
 
         Map<String,Integer> cupo = this.cupoEdificiosGrupo(solar.getGrupo());
         if(cupo.get(tipoEdificio) == 0){
-            consola.imprimir("No se pueden edificar más edificios de ese tipo en el grupo\n");
-            return;
+            throw new LogicaException("No se pueden edificar más edificios de ese tipo en el grupo\n");
         }
         switch(tipoEdificio){
             case "casa":
@@ -701,24 +714,20 @@ public class Juego implements Comando{
         }
         consola.imprimir(mensaje1 + mensaje2 + "\n");
     }
-    public void vender(String tipoEdificio, String nombreCasilla,int numero){
+    public void vender(String tipoEdificio, String nombreCasilla,int numero) throws LogicaException{
         Casilla casilla = this.getCasillaPorNombre(nombreCasilla);
         if(casilla == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(casilla instanceof Solar)){
-            consola.imprimir("Esa casilla no es un solar\n");
-            return;
+            throw new LogicaException("Esa casilla no es un solar\n");
         }
         Solar solar = (Solar) casilla;
         if(!this.jugadorActual.equals(solar.getPropietario())){
-            consola.imprimir("El jugador actual no es el propietario de la casilla\n");
-            return;
+            throw new LogicaException("El jugador actual no es el propietario de la casilla\n");
         }
         if(numero <= 0){
-            consola.imprimir("El número de edificios a vender debe ser mayor que 0\n");
-            return;
+            throw new LogicaException("El número de edificios a vender no puede ser menor o igual que 0\n");
         }
         switch(tipoEdificio){
             case "casa":
@@ -758,53 +767,38 @@ public class Juego implements Comando{
         }
     }
 
-    public void hipotecar(String nombreCasilla){
+    public void hipotecar(String nombreCasilla) throws LogicaException{
         Casilla casilla = this.getCasillaPorNombre(nombreCasilla);
         if(casilla == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(casilla instanceof Propiedad)){
-            consola.imprimir("Esa casilla no es una propiedad\n");
-            return;
+            throw new LogicaException("Esa casilla no es una propiedad\n");
         }
         Propiedad propiedad = (Propiedad) casilla;
         if(!this.jugadorActual.equals(propiedad.getPropietario())){
-            consola.imprimir("El jugador actual no es el propietario de la casilla\n");
-            return;
+            throw new LogicaException("El jugador actual no es el propietario de la casilla\n");
         }
         this.jugadorActual.hipotecar(propiedad);
     }
-    public void deshipotecar(String nombreCasilla){
+    public void deshipotecar(String nombreCasilla) throws MonopolyException{
         Casilla casilla = this.getCasillaPorNombre(nombreCasilla);
         if(casilla == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(casilla instanceof Propiedad)){
-            consola.imprimir("Esa casilla no es una propiedad\n");
-            return;
+            throw new LogicaException("Esa casilla no es una propiedad\n");
         }
         Propiedad propiedad = (Propiedad) casilla;
         if(!this.jugadorActual.equals(propiedad.getPropietario())){
-            consola.imprimir("El jugador actual no es el propietario de la casilla\n");
-            return;
+            throw new LogicaException("El jugador actual no es el propietario de la casilla\n");
         }
         this.jugadorActual.deshipotecar(propiedad);
     }
-    public void bancarrota(){
+    public void bancarrota() throws MonopolyException{
         this.jugadorActual.bancarrota(banca);
         this.acabarTurno();
     }
-
-    /*{
-casillaMasRentable: Badajoz,
-grupoMasRentable: Verde,
-casillaMasFrecuentada: Pamplona,
-jugadorMasVueltas: Pedro,
-jugadorMasVecesDados: Cristina,
-jugadorEnCabeza: Maria
-}*/
     public void estadisticas(){
         Propiedad cMasRentable = null;
         ColorString.Color grupoMasRentable = null;
@@ -876,27 +870,23 @@ jugadorEnCabeza: Maria
                     jugadorEnCabeza: %s
                 }\n""".formatted(cMasRentable.getNombre(),grupoMasRentable,cMasFrecuentada.getNombre(),jMasVueltas.getNombre(),jMasVecesDados.getNombre(),jEnCabeza.getNombre()));
     }
-    public void estadisticas(String nombreJugador){
+    public void estadisticas(String nombreJugador) throws LogicaException{
         if(!this.jugadores.containsKey(nombreJugador) || this.jugadores.get(nombreJugador).equals(banca)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         this.jugadores.get(nombreJugador).estadisticas();
 
     }
 
-    public void cambiarModo(){
+    public void cambiarModo() throws LogicaException{
         if(!this.jugadorActual.tieneAccion()){
-            consola.imprimir("El jugador actual ya ha lanzado los dados.\n");
-            return;
+            throw new LogicaException("El jugador actual ya ha lanzado los dados\n");
         }
         if ((this.jugadorActual.getAvatar() instanceof Coche c ) && c.getEnMovimiento()){
-            consola.imprimir("El jugador está en medio de un movimiento.\n");
-            return;
+            throw new LogicaException("El jugador está en medio de un movimiento.\n");
         }
         if ((this.jugadorActual.getAvatar() instanceof Pelota p ) && p.getEnMovimiento()){
-            consola.imprimir("El jugador está en medio de un movimiento.\n");
-            return;
+            throw new LogicaException("El jugador está en medio de un movimiento.\n");
         }
 
 
@@ -921,30 +911,24 @@ jugadorEnCabeza: Maria
     
     public void trato(String nombreJugador2,String propiedad1,String propiedad2) throws MonopolyException{
         if(!this.jugadores.containsKey(nombreJugador2)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
-
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         Jugador j2 = this.jugadores.get(nombreJugador2);
         if(this.jugadorActual.equals(j2)){
-            consola.imprimir("No se puede hacer un trato con uno mismo\n");
-            return;
+            throw new LogicaException("No se puede hacer un trato con uno mismo\n");
         }
         Casilla c1 = this.getCasillaPorNombre(propiedad1);
         Casilla c2 = this.getCasillaPorNombre(propiedad2);
         if(c1 == null || c2 == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c1 instanceof Propiedad) || !(c2 instanceof Propiedad)){
-            consola.imprimir("Una de las casillas no es una propiedad\n");
-            return;
+            throw new LogicaException("La casilla no es una propiedad\n");
         }
         Propiedad p1 = (Propiedad) c1;
         Propiedad p2 = (Propiedad) c2;
         if(!this.jugadorActual.equals(p1.getPropietario()) || !j2.equals(p2.getPropietario())){
-            consola.imprimir("Uno de los jugadores no es el propietario de la propiedad\n");
-            return;
+            throw new LogicaException("Uno de los jugadores no es propietario de la propiedad\n");
         }
 
         TratoPP t = new TratoPP(this.jugadorActual,j2,"trato-" + nTratos,p1,p2);
@@ -957,32 +941,25 @@ jugadorEnCabeza: Maria
 
     void trato(String nombreJugador2,String propiedad1,float cantidad) throws MonopolyException{
         if(!this.jugadores.containsKey(nombreJugador2)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
-
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         Jugador j2 = this.jugadores.get(nombreJugador2);
         if(this.jugadorActual.equals(j2)){
-            consola.imprimir("No se puede hacer un trato con uno mismo\n");
-            return;
+            throw new LogicaException("No se puede hacer un trato con uno mismo\n");
         }
         Casilla c1 = this.getCasillaPorNombre(propiedad1);
         if(c1 == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c1 instanceof Propiedad)){
-            consola.imprimir("La casilla no es una propiedad\n");
-            return;
+            throw new LogicaException("La casilla no es una propiedad\n");
         }
         Propiedad p1 = (Propiedad) c1;
         if(!this.jugadorActual.equals(p1.getPropietario())){
-            consola.imprimir("El jugador no es el propietario de la propiedad\n");
-            return;
+            throw new LogicaException("El jugador no es el propietario de la propiedad\n");
         }
         if(cantidad <= 0){
-            consola.imprimir("La cantidad debe ser mayor que 0\n");
-            return;
+            throw new LogicaException("La cantidad debe ser mayor que 0\n");
         }
 
         TratoPC t = new TratoPC(this.jugadorActual,j2,"trato-" + nTratos,p1,cantidad,this.jugadorActual);
@@ -994,33 +971,26 @@ jugadorEnCabeza: Maria
     }
     public void trato(String nombreJugador1,String nombreJugador2,String propiedad1,float cantidad) throws MonopolyException{
         if(!this.jugadores.containsKey(nombreJugador1) || !this.jugadores.containsKey(nombreJugador2)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
-
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         Jugador j1 = this.jugadores.get(nombreJugador1);
         Jugador j2 = this.jugadores.get(nombreJugador2);
         if(j1.equals(j2)){
-            consola.imprimir("No se puede hacer un trato con uno mismo\n");
-            return;
+            throw new LogicaException("No se puede hacer un trato con uno mismo\n");
         }
         Casilla c1 = this.getCasillaPorNombre(propiedad1);
         if(c1 == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c1 instanceof Propiedad)){
-            consola.imprimir("La casilla no es una propiedad\n");
-            return;
+            throw new LogicaException("La casilla no es una propiedad\n");
         }
         Propiedad p1 = (Propiedad) c1;
         if(!j1.equals(p1.getPropietario())){
-            consola.imprimir("El jugador no es el propietario de la propiedad\n");
-            return;
+            throw new LogicaException("Uno de los jugadores no es el propietario de la propiedad\n");
         }
         if(cantidad <= 0){
-            consola.imprimir("La cantidad debe ser mayor que 0\n");
-            return;
+            throw new LogicaException("La cantidad debe ser mayor que 0\n");
         }
 
         TratoPC t = new TratoPC(j1,j2,"trato-" + nTratos,p1,cantidad,this.jugadorActual);
@@ -1039,35 +1009,28 @@ jugadorEnCabeza: Maria
     }
     public void trato(String nombreJugador1,String nombreJugador2,String propiedad1,String propiedad2,float cantidad) throws MonopolyException{
         if(!this.jugadores.containsKey(nombreJugador1) || !this.jugadores.containsKey(nombreJugador2)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
-
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         Jugador j1 = this.jugadores.get(nombreJugador1);
         Jugador j2 = this.jugadores.get(nombreJugador2);
         if(j1.equals(j2)){
-            consola.imprimir("No se puede hacer un trato con uno mismo\n");
-            return;
+            throw new LogicaException("No se puede hacer un trato con uno mismo\n");
         }
         Casilla c1 = this.getCasillaPorNombre(propiedad1);
         Casilla c2 = this.getCasillaPorNombre(propiedad2);
         if(c1 == null || c2 == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c1 instanceof Propiedad) || !(c2 instanceof Propiedad)){
-            consola.imprimir("Una de las casillas no es una propiedad\n");
-            return;
+            throw new LogicaException("Una de las casillas no es una propiedad\n");
         }
         Propiedad p1 = (Propiedad) c1;
         Propiedad p2 = (Propiedad) c2;
         if(!j1.equals(p1.getPropietario()) || !j2.equals(p2.getPropietario())){
-            consola.imprimir("Uno de los jugadores no es el propietario de la propiedad\n");
-            return;
+            throw new LogicaException("Uno de los jugadores no es el propietario de la propiedad\n");
         }
         if(cantidad <= 0){
-            consola.imprimir("La cantidad debe ser mayor que 0\n");
-            return;
+            throw new LogicaException("La cantidad debe ser mayor que 0\n");
         }
 
         TratoPPC t = new TratoPPC(j1,j2,"trato-" + nTratos,p1,p2,cantidad,this.jugadorActual);
@@ -1085,39 +1048,31 @@ jugadorEnCabeza: Maria
         }
     }
 
-    //Salida Eva, ¿te doy Solar1 y tú me das Solar14 y no pago alquiler en Solar3 durante 3 turnos?
     public void trato(String nombreJugador2, String propiedad1,String propiedad2,String propiedad3,int turnos) throws MonopolyException{
         if(!this.jugadores.containsKey(nombreJugador2)){
-            consola.imprimir("No existe ningún jugador con ese nombre\n");
-            return;
-
+            throw new LogicaException("No existe ningún jugador con ese nombre\n");
         }
         Jugador j2 = this.jugadores.get(nombreJugador2);
         if(this.jugadorActual.equals(j2)){
-            consola.imprimir("No se puede hacer un trato con uno mismo\n");
-            return;
+            throw new LogicaException("No se puede hacer un trato con uno mismo\n");
         }
         Casilla c1 = this.getCasillaPorNombre(propiedad1);
         Casilla c2 = this.getCasillaPorNombre(propiedad2);
         Casilla c3 = this.getCasillaPorNombre(propiedad3);
         if(c1 == null || c2 == null || c3 == null){
-            consola.imprimir("No existe ninguna casilla con ese nombre\n");
-            return;
+            throw new LogicaException("No existe ninguna casilla con ese nombre\n");
         }
         if(!(c1 instanceof Propiedad) || !(c2 instanceof Propiedad) || !(c3 instanceof Propiedad)){
-            consola.imprimir("Una de las casillas no es una propiedad\n");
-            return;
+            throw new LogicaException("Una de las casillas no es una propiedad\n");
         }
         Propiedad p1 = (Propiedad) c1;
         Propiedad p2 = (Propiedad) c2;
         Propiedad p3 = (Propiedad) c3;
         if(!this.jugadorActual.equals(p1.getPropietario()) || !j2.equals(p2.getPropietario()) || !j2.equals(p3.getPropietario())){
-            consola.imprimir("Uno de los jugadores no es el propietario de la propiedad\n");
-            return;
+            throw new LogicaException("Uno de los jugadores no es el propietario de la propiedad\n");
         }
         if(turnos <= 0){
-            consola.imprimir("El número de turnos debe ser mayor que 0\n");
-            return;
+            throw new LogicaException("El número de turnos debe ser mayor que 0\n");
         }
 
         TratoPPA t = new TratoPPA(this.jugadorActual,j2,"trato-" + nTratos,p1,p2,p3,turnos);
@@ -1138,10 +1093,21 @@ jugadorEnCabeza: Maria
     public void eliminarTrato(String id) throws MonopolyException{
         Trato t = this.jugadorActual.getTrato(id);
         if(!t.esProponente(this.jugadorActual)){
-            throw new MonopolyException("El jugador actual no es el proponente del trato\n");
+            throw new LogicaException("El jugador actual no es el proponente del trato\n");
         }
         t.getJugador1().eliminarTrato(id);
         t.getJugador2().eliminarTrato(id);
         consola.imprimir("Se ha eliminado el %s\n".formatted(id));
+    }
+
+    public void listarEnVenta(){
+        for(Casilla c: this.casillas){
+            if(c instanceof Propiedad p){
+                if(p.getPropietario().equals(banca)){
+                    consola.imprimir(p.toString() + "\n");
+                }
+            }
+        }
+
     }
 }

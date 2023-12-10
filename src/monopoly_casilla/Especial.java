@@ -8,6 +8,12 @@ public class Especial extends Casilla{
     }
     @Override
     public void caer(Avatar av){
-        //TODO
+    }
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: especial,
+        }""";
     }
 }

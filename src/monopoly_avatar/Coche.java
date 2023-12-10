@@ -38,9 +38,10 @@ public class Coche extends Avatar{
             int posicionActual = casillas.indexOf(casillaActual);
             int posicionNueva = posicionActual - tirada;
             if(posicionNueva < 0){
+                this.getJugador().decrementarVueltas();
+                this.getJugador().pagar(Juego.banca,Juego.salida.getPremio());
                 posicionNueva = casillas.size() + posicionNueva;
                 casillaNueva = casillas.get(posicionNueva);
-                this.getJugador().pagar(Juego.banca, Juego.salida.getPremio());
             }else {
                 casillaNueva = casillas.get(posicionNueva);
             }
@@ -52,6 +53,8 @@ public class Coche extends Avatar{
             int posicionActual = casillas.indexOf(casillaActual);
             int posicionNueva = posicionActual + tirada;
             if(posicionNueva >= casillas.size()){
+                this.getJugador().incrementarVueltas();
+                this.getJugador().incrementarPasarPorCasillaDeSalida(Juego.salida.getPremio());
                 posicionNueva = posicionNueva - casillas.size();
                 casillaNueva = casillas.get(posicionNueva);
                 this.getJugador().cobrar(Juego.salida.getPremio());

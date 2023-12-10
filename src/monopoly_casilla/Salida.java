@@ -11,4 +11,13 @@ public class Salida extends Especial{
     public float getPremio(){
         return this.premio;
     }
+
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: salida,
+            premio: %.2f
+        }""".formatted(this.premio);
+    }
 }

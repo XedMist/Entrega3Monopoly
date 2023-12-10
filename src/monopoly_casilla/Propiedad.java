@@ -12,7 +12,7 @@ public abstract class Propiedad extends Casilla{
     private Jugador propietario;
     private float valorInicial;
     private float valor;
-    private float alquiler;
+    private final float alquiler;
 
 
     private boolean hipotecada;
@@ -26,21 +26,14 @@ public abstract class Propiedad extends Casilla{
         this.alquiler=0.1f*this.valor;
     }
 
-    
+
+
+    public boolean perteneceAJugador(Jugador jugador){
+        return this.propietario.equals(jugador);
+    }
     public float valor(){
         return this.valor;
     }
-    public float valorInicial(){
-        return this.valorInicial;
-    }
-
-    public void setHipotecada(boolean hipotecada){
-        this.hipotecada=hipotecada;
-    }
-    public boolean getHipotecada(){
-        return this.hipotecada;
-    }
-
     public abstract float alquiler();
     public void comprar(Avatar av) throws MonopolyException {
         Jugador jugador = av.getJugador();
@@ -71,6 +64,23 @@ public abstract class Propiedad extends Casilla{
         }
         Juego.consola.imprimir("%s compra la casilla %s por %.2f€\n".formatted(jugador.getNombre(),this.getNombre(),this.valor));
     }
+
+
+    public void incrementarValor(){
+        this.valor *= 1.05;
+    }
+    
+    public float valorInicial(){
+        return this.valorInicial;
+    }
+
+    public void setHipotecada(boolean hipotecada){
+        this.hipotecada=hipotecada;
+    }
+    public boolean getHipotecada(){
+        return this.hipotecada;
+    }
+
     public float getAlquiler(){
         return this.alquiler;
     }

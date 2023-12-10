@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Jugador{
-    private String nombre;
+    private final String nombre;
     private float fortuna;
-    private List<Propiedad> propiedades;
+    private final List<Propiedad> propiedades;
     private List<Propiedad> hipotecas;
     private Avatar avatar;
     private boolean accion;
@@ -62,7 +62,6 @@ public class Jugador{
     public void incrementarDineroInvertido(float cantidad){
         this.dineroInvertido += cantidad;
     }
-    //TODO anhadir a las cartas
     public void incrementarPagoTasasEImpuestos(float cantidad){
         this.pagoTasasEImpuestos += cantidad;
     }
@@ -75,7 +74,6 @@ public class Jugador{
     public void incrementarPasarPorCasillaDeSalida(float cantidad){
         this.pasarPorCasillaDeSalida+= cantidad;
     }
-    //TODO anhadir a las cartas
     public void incrementarPremiosInversionesOBote(float cantidad){
         this.premiosInversionesOBote += cantidad;
     }
@@ -113,6 +111,12 @@ public class Jugador{
     }
     public void incrementarVueltas(){
         this.vueltas++;
+    }
+    public void decrementarVueltas(){
+        this.vueltas--;
+    }
+    public void setVueltas(int vueltas){
+        this.vueltas = vueltas;
     }
     public void nuevoTrato(Trato trato){
         this.tratos.add(trato);

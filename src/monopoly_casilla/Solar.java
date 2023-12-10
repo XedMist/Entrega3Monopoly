@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solar extends Propiedad{
-    private ColorString.Color grupo;
-    private List<Edificio> edificios;
-    public Solar(String nombre, int posicion, float valorInicial, ColorString.Color grupo){
+    //El grupo y edificios no cambia
+    private final Grupo grupo;
+    private final List<Edificio> edificios;
+    public Solar(String nombre, int posicion, float valorInicial, Grupo grupo){
         super(nombre,posicion,valorInicial);
         this.grupo=grupo;
         this.edificios = new ArrayList<>();
@@ -62,11 +63,11 @@ public class Solar extends Propiedad{
             }
             alquilerEdificios += e.alquiler();
         }
-        int multiplicador = !this.getPropietario().equals(Juego.banca) && this.getPropietario().tieneTodosLosSolares(this.grupo) ? 2 : 1;
+        int multiplicador = !this.getPropietario().equals(Juego.banca) && this.grupo.esPropietarioGrupo(this.getPropietario())  ? 2 : 1;
         return 0.1f*this.valor() * multiplicador + alquilerEdificios;
     }
     public ColorString.Color getGrupo(){
-        return this.grupo;
+        return this.grupo.getColor();
     }
     public void edificar(Edificio e) throws MonopolyException {
         if(!e.condicion()){
@@ -100,7 +101,7 @@ public class Solar extends Propiedad{
                 avatarSpan += av.getId();
             }
         }
-        return new ColorString(this.getNombre() + nameSpan + " " + avatarSpan,this.grupo) + "|";
+        return new ColorString(this.getNombre() + nameSpan + " " + avatarSpan,this.grupo.getColor()) + "|";
     }
     @Override
     public String toString(){
@@ -112,7 +113,34 @@ public class Solar extends Propiedad{
             valor: %.2f,
             alquiler: %.2f,
             edificios: %s,
+            valorHotel: %.2f,
+            valorCasa: %.2f,
+            valorPiscina: %.2f,
+            valorPistaDeporte: %.2f,
+            alquiler1Casa: %.2f,
+            alquiler2Casas: %.2f,
+            alquiler3Casas: %.2f,
+            alquiler4Casas: %.2f,
+            alquilerHotel: %.2f,
+            alquilerPiscina: %.2f,
+            alquilerPistaDeporte: %.2f
         }
-        """.formatted(this.grupo,this.getPropietario().getNombre(),this.valor(),this.alquiler(),this.edificios);
+        """.formatted(this.grupo,
+            this.getPropietario().getNombre(),
+            this.valor(),
+            this.alquiler(),
+            this.edificios,
+            this.valorInicial() * 0.6f,
+            this.valorInicial() * 0.6f,
+            this.valorInicial() * 0.4f,
+            this.valorInicial() * 1.25f,
+            this.getAlquiler()*5,
+            this.getAlquiler()*15,
+            this.getAlquiler()*35,
+            this.getAlquiler()*50,
+            this.getAlquiler()*70,
+            this.getAlquiler()*25,
+            this.getAlquiler()*25
+            );
     }
 }

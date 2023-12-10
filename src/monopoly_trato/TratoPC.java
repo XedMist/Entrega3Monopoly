@@ -5,9 +5,9 @@ import monopoly_core.Jugador;
 import monopoly_exceptions.MonopolyException;
 
 public class TratoPC extends Trato{
-    private Propiedad propiedad1;
-    private Jugador proponente;
-    private float cantidad;
+    private final Propiedad propiedad1;
+    private final Jugador proponente;
+    private final float cantidad;
     public TratoPC(Jugador jugador1, Jugador jugador2, String identificador, Propiedad propiedad1, float cantidad,Jugador proponente) {
         super(jugador1, jugador2, identificador);
         this.propiedad1 = propiedad1;

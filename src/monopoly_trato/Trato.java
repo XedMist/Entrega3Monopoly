@@ -5,9 +5,9 @@ import monopoly_exceptions.MonopolyException;
 
 public abstract class Trato {
     
-    private String identificador;
-    private Jugador jugador1;
-    private Jugador jugador2;
+    private final String identificador;
+    private final Jugador jugador1;
+    private final Jugador jugador2;
     private String mensajeProponer;
     private String mensajeAceptar;
     public Trato(Jugador jugador1, Jugador jugador2,String identificador) {

@@ -30,18 +30,22 @@ public class CartaSuerte extends Carta{
         switch(this.accion){
             case GanarLoteria:
                 Juego.consola.imprimir("¡Has ganado el bote de la loteria! Recibe 1000000€\n");
+                j.incrementarPremiosInversionesOBote(1_000_000);
                 j.cobrar(1_000_000);
                 break;
             case VenderBillete:
                 Juego.consola.imprimir("Vendes tu billete de avión a Cádiz en una subasta por Internet. Recibe 500000€\n");
+                j.incrementarPremiosInversionesOBote(500_000);
                 j.cobrar(500_000);
                 break;
             case MultarMovil:
                 Juego.consola.imprimir("Te multan por usar el móvil mientras conduces. Paga 250000€\n");
+                j.incrementarPagoTasasEImpuestos(250_000);
                 j.pagar(Juego.banca,250_000);
                 break;
             case BeneficiarAcciones:
                 Juego.consola.imprimir("Beneficio por la venta de tus acciones. Recibe 1500000€\n");
+                j.incrementarPremiosInversionesOBote(1_500_000);
                 j.cobrar(1_500_000);
                 break;
             case SerPresidente:
@@ -67,6 +71,7 @@ public class CartaSuerte extends Carta{
                         total2 += s.nTipoEdificio(PistaDeporte.class) * 750_000;
                     }
                 }
+                j.incrementarPagoTasasEImpuestos(total2);
                 j.pagar(Juego.banca,total2);
                 break;
         }

@@ -46,4 +46,12 @@ public class AccionSuerte extends Accion{
             accion(jugador);
         }
     }
+
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: suerte
+        }""";
+    }
 }

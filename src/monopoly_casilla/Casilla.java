@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 public abstract class Casilla {
-    private int posicion;
+    //La posicion no cambia, igual que el mapa o la lista. Si cambia su contenido
+    private final int posicion;
     private String nombre;
-    private Map<String,Integer> visitas;
-    private List<Avatar> avatares;
+    private final Map<String,Integer> visitas;
+    private final List<Avatar> avatares;
     
     public Casilla(String nombre,int posicion){
         this.posicion = posicion;

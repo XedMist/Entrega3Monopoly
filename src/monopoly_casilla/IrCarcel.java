@@ -19,5 +19,13 @@ public class IrCarcel extends Especial{
         av.moverACasilla(this.carcel);
 
         av.getJugador().incrementarVecesEnLaCarcel();
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return """
+        {
+            tipo: irCarcel,
+        }""";
+    }
 } 

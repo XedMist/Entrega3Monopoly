@@ -24,6 +24,7 @@ public class CartaCajaComunidad extends Carta{
         switch(this.accion){
             case AlquilarJet:
                 Juego.consola.imprimir("Recibe 1000000 de beneficios por alquilar los servicios de tu jet privado.\n");
+                j.incrementarPremiosInversionesOBote(1_000_000);
                 j.cobrar(1_000_000);
                 break;
             case PagarBalneario:
@@ -36,6 +37,7 @@ public class CartaCajaComunidad extends Carta{
                 break;
             case BeneficiarCompanhia:
                 Juego.consola.imprimir("Tu compañía de Internet obtiene beneficios. Recibe 2000000€.\n");
+                j.incrementarPremiosInversionesOBote(2_000_000);
                 j.cobrar(2_000_000);
                 break;
             case PagarViaje:

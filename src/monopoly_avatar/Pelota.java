@@ -51,11 +51,14 @@ public class Pelota extends Avatar{
         int posicionActual = casillas.indexOf(casillaActual);
         int posicionNueva = posicionActual + this.movimientosRestantes.get(0);
         if(posicionNueva >= casillas.size()){
+            this.getJugador().incrementarVueltas();
+            this.getJugador().incrementarPasarPorCasillaDeSalida(Juego.salida.getPremio());
             posicionNueva = posicionNueva - casillas.size();
             casillaNueva = casillas.get(posicionNueva);
             this.getJugador().cobrar(Juego.salida.getPremio());
         }
         else if(posicionNueva < 0){
+            this.getJugador().decrementarVueltas();
             posicionNueva = casillas.size() + posicionNueva;
             casillaNueva = casillas.get(posicionNueva);
             this.getJugador().pagar(Juego.banca, Juego.salida.getPremio());
