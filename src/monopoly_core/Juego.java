@@ -207,8 +207,8 @@ public class Juego implements Comando{
         }
 
         this.jugadorActual = this.colaJugadores.peek();
-        
-
+    
+        this.verTablero();
     }
     public void ejecutar(){
         consola.empezar(this);
@@ -481,6 +481,7 @@ public class Juego implements Comando{
         }
         avatar.moverEnBasico(casillaNueva);
         this.verTablero();
+        consola.imprimir(this.jugadorActual.estado());
 
     }
     public void comprar(String nombreCasilla) throws MonopolyException{

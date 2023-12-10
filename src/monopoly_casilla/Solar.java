@@ -105,6 +105,14 @@ public class Solar extends Propiedad{
     }
     @Override
     public String toString(){
+        String edificios = "[";
+        for(Edificio e: this.edificios){
+            edificios += e.getNombre() + ",";
+        }
+        if(edificios.length() > 1)
+            edificios = edificios.substring(0,edificios.length()-1);
+        edificios += "]";
+
         return """
         {
             tipo: Solar,
@@ -129,7 +137,7 @@ public class Solar extends Propiedad{
             this.getPropietario().getNombre(),
             this.valor(),
             this.alquiler(),
-            this.edificios,
+            edificios,
             this.valorInicial() * 0.6f,
             this.valorInicial() * 0.6f,
             this.valorInicial() * 0.4f,

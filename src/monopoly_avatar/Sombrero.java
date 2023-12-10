@@ -18,4 +18,14 @@ public class Sombrero extends Avatar{
         this.getJugador().setAccion(true);
         this.setEnMovimiento(false);
     }
+    @Override
+    public String toString() {
+        return """
+        {
+            id: %c,
+            tipo: sombrero,
+            casilla: %s,
+            jugador: %s
+        }""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
+    }
 }

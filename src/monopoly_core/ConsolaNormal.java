@@ -443,7 +443,7 @@ public class ConsolaNormal implements Consola{
         juego.eliminarTrato(args[1]);
     }
     private void comandoSalir(Juego juego, String[] args) throws MonopolyException{
-        if(args.length != 1){
+        if(args.length != 2){
             throw new ArgumentosIncorrectosException(ArgumentosComandos.salirCarcel,0);
         }
         juego.salirCarcel();

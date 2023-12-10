@@ -392,6 +392,25 @@ public class Jugador{
     }
 
 
+    public String estado(){
+
+        String propiedades = "[";
+        for(Propiedad p: this.propiedades){
+            propiedades += p.getNombre() + ",";
+        }
+        if(propiedades.length() > 1){
+            propiedades = propiedades.substring(0,propiedades.length()-1);
+        }
+        propiedades += "]";
+
+        return """
+        {
+            propiedades: %s,
+            fortuna: %.2f,
+            gastos: %.2f,
+        }\n""".formatted(propiedades,this.fortuna,this.dineroInvertido+this.pagoTasasEImpuestos+this.pagoDeAlquileres);
+    }
+
     public void estadisticas(){
         Juego.consola.imprimir("""
         {
@@ -429,6 +448,35 @@ public class Jugador{
     }
     @Override
     public String toString(){
+
+        String propiedades = "[";
+        for(Propiedad p: this.propiedades){
+            propiedades += p.getNombre() + ",";
+        }
+        if(propiedades.length() > 1){
+            propiedades = propiedades.substring(0,propiedades.length()-1);
+        }
+        propiedades += "]";
+
+        String hipotecas = "[";
+        for(Propiedad p: this.hipotecas){
+            hipotecas += p.getNombre() + ",";
+        }
+        if(hipotecas.length() > 1){
+            hipotecas = hipotecas.substring(0,hipotecas.length()-1);
+        }
+        hipotecas += "]";
+
+
+        String edificios = "[";
+        for(Edificio e: this.getEdificios()){
+            edificios += e.getNombre() + ",";
+        }
+        if(edificios.length() > 1){
+            edificios = edificios.substring(0,edificios.length()-1);
+        }
+        edificios += "]";
+
         return """
         {
             nombre: %s,
@@ -437,7 +485,7 @@ public class Jugador{
             propiedades: %s,
             hipotecas: %s,
             edificios: %s
-        }\n""".formatted(this.nombre,this.avatar.getId(),this.fortuna,this.propiedades,this.hipotecas,this.getEdificios());
+        }\n""".formatted(this.nombre,this.avatar.getId(),this.fortuna,propiedades,hipotecas,edificios);
     }
 }
 

@@ -83,4 +83,14 @@ public class Pelota extends Avatar{
         this.setEnMovimiento(false);
         this.setEnModoAvanzado(false);
     }
+    @Override
+    public String toString() {
+        return """
+        {
+            id: %c,
+            tipo: pelota,
+            casilla: %s,
+            jugador: %s
+        }""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
+    }
 }

@@ -29,7 +29,6 @@ public class AccionCajaComunidad extends Accion{
                 accion(jugador);
                 return;
             }
-            //Baraja las cartas
             List<CartaCajaComunidad> cartas = new ArrayList<>(this.cartas);
             for(int i = 0; i < cartas.size(); i++){
                 int pos = (int)(Math.random() * cartas.size());
@@ -37,7 +36,6 @@ public class AccionCajaComunidad extends Accion{
                 cartas.set(i,cartas.get(pos));
                 cartas.set(pos,aux);
             }
-            //Ejecuta la accion de la carta elegida
             cartas.get(num - 1).accion(jugador,this.jugadores);
         }catch(NumberFormatException e){
             Juego.consola.imprimir("Entrada no valida\n");

@@ -5,40 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44588567-9d2c-43fc-80a2-9f858b4b3484" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/monopoly_casilla/Grupo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/monopoly_exceptions/NoExisteComandoException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_avatar/Coche.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_avatar/Coche.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_avatar/Pelota.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_avatar/Pelota.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/Carta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/Carta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/CartaCajaComunidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/CartaCajaComunidad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_carta/CartaSuerte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_carta/CartaSuerte.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Accion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Accion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionCajaComunidad.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/AccionSuerte.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Carcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Casilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Casilla.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Especial.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Especial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Impuesto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Impuesto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/IrCarcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/IrCarcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Propiedad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Propiedad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Salida.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Salida.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_casilla/Solar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Comando.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Comando.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/ConsolaNormal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_core/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Juego.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Jugador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_core/Tablero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_core/Tablero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/Hotel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/Hotel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/Piscina.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/Piscina.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_edificios/PistaDeporte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_edificios/PistaDeporte.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_exceptions/SinDineroException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/Trato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/Trato.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/monopoly_trato/TratoPPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/monopoly_trato/TratoPPC.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +101,8 @@
       <workItem from="1702152717533" duration="7022000" />
       <workItem from="1702207107151" duration="12000" />
       <workItem from="1702207295151" duration="255000" />
-      <workItem from="1702211478107" duration="5776000" />
+      <workItem from="1702211478107" duration="5868000" />
+      <workItem from="1702222265614" duration="1114000" />
     </task>
     <servers />
   </component>

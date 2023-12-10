@@ -44,10 +44,18 @@ public class Carcel extends Especial{
 
     @Override
     public String toString() {
+        String encarcelados = "[";
+        for(String j: this.encarcelados.keySet()){
+            encarcelados += j + ",";
+        }
+        if(encarcelados.length() > 1)
+            encarcelados = encarcelados.substring(0,encarcelados.length()-1);
+        encarcelados += "]";
+
         return """
         {
             salir: %.2f,
             jugadores: %s
-        }""".formatted(0.25f* Juego.salida.getPremio(),this.encarcelados);
+        }""".formatted(0.25f* Juego.salida.getPremio(),encarcelados);
     }
 }

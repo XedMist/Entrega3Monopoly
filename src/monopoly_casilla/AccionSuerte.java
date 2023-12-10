@@ -19,7 +19,6 @@ public class AccionSuerte extends Accion{
         this.jugadores = jugadores;
     }
 
-    //Pide un numero, baraja aleatoriamente las cartas y ejecuta la accion de la carta elegida
     @Override
     public void accion(Jugador jugador) throws MonopolyException {
         String carta = Juego.consola.leer("Elige una carta: ");
@@ -31,7 +30,6 @@ public class AccionSuerte extends Accion{
                 accion(jugador);
                 return;
             }
-            //Baraja las cartas
             List<CartaSuerte> cartas = new ArrayList<>(this.cartas);
             for(int i = 0; i < cartas.size(); i++){
                 int pos = (int)(Math.random() * cartas.size());
@@ -39,7 +37,6 @@ public class AccionSuerte extends Accion{
                 cartas.set(i,cartas.get(pos));
                 cartas.set(pos,aux);
             }
-            //Ejecuta la accion de la carta elegida
             cartas.get(num - 1).accion(jugador,this.jugadores);
         }catch(NumberFormatException e){
             Juego.consola.imprimir("Entrada no valida\n");

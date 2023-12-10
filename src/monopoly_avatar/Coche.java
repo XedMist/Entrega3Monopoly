@@ -94,5 +94,14 @@ public class Coche extends Avatar{
         return this.turnosPenalizacion > 0;
     }
 
-
+    @Override
+    public String toString() {
+        return """
+        {
+            id: %c,
+            tipo: coche,
+            casilla: %s,
+            jugador: %s
+        }""".formatted(this.getId(),this.getCasilla().getNombre(),this.getJugador().getNombre());
+    }
 }
