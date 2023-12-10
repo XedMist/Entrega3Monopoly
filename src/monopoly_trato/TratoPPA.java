@@ -38,8 +38,9 @@ public class TratoPPA extends Trato{
     public String toString() {
         return """
         {
+            id: %s,
             jugadorPropone: %s,
             trato: cambiar (%s, %s) y noalquiler(%s, %d)
-        }\n""".formatted(this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre(),this.propiedad3.getNombre(),this.turnos);
+        }\n""".formatted(this.getIdentificador(),this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre(),this.propiedad3.getNombre(),this.turnos);
     }
 }

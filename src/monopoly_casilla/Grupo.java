@@ -37,4 +37,9 @@ public class Grupo{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return this.color.toString();
+    }
+
 }

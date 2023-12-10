@@ -44,8 +44,9 @@ public class TratoPPC extends Trato{
     public String toString() {
         return """
         {
+            id: %s,
             jugadorPropone: %s,
             trato: cambiar (%s, %s, %.2f€)
-        }\n""".formatted(this.proponente.getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre(),this.cantidad);
+        }\n""".formatted(this.getIdentificador(),this.proponente.getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre(),this.cantidad);
     }
 }

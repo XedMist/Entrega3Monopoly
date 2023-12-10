@@ -37,8 +37,9 @@ public class TratoPC extends Trato{
     public String toString() {
         return """
         {
+            id: %s,
             jugadorPropone: %s,
             trato: cambiar (%s, %.2f€)
-        }\n""".formatted(this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.cantidad);
+        }\n""".formatted(this.getIdentificador(),this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.cantidad);
     }
 }

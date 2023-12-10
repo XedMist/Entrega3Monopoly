@@ -32,8 +32,9 @@ public class TratoPP extends Trato{
     public String toString() {
         return """
         {
+            id: %s,
             jugadorPropone: %s,
             trato: cambiar (%s, %s)
-        }\n""".formatted(this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre());
+        }\n""".formatted(this.getIdentificador(),this.getJugador1().getNombre(),this.propiedad1.getNombre(),this.propiedad2.getNombre());
     }
 }
